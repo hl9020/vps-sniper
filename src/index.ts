@@ -87,7 +87,7 @@ app.get('/api/status', async (c) => {
     lastError: status.lastError,
     avail: availability(types),
     jobs: Object.fromEntries(s.jobs.map((j) => [j.id, jobState(j.id)])),
-    events: state.events.slice(0, 50),
+    events: state.events,
   })
 })
 
@@ -100,6 +100,12 @@ app.post('/api/test-mail', async (c) => {
   await sendMail('Test', 'Mail delivery works.')
   log('info', `Test mail sent to ${env.smtp.to.join(', ')}`)
   return c.json({ ok: true, to: env.smtp.to })
+})
+
+app.post('/api/events/clear', (c) => {
+  state.events = []
+  log('info', 'Log cleared')
+  return c.json({ ok: true })
 })
 
 app.post('/api/jobs/:id/reset', (c) => {

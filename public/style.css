@@ -67,6 +67,7 @@ main {
 }
 
 .head h2 { margin: 0; }
+h2 .muted, h3 .muted { margin-left: 8px; }
 
 .row {
   display: flex;
@@ -188,8 +189,24 @@ td.act button { padding: 2px 10px; font-size: 12px; }
 .bad { color: var(--err); }
 
 .list { list-style: none; margin: 0; padding: 0; font-size: 13px; }
-.list li { display: flex; gap: 10px; padding: 3px 0; border-bottom: 1px solid var(--line); }
+.list li { display: flex; gap: 10px; padding: 3px 0; line-height: 18px; border-bottom: 1px solid var(--line); }
+.list.log { max-height: 500px; overflow-y: auto; }
 .list li time { color: var(--muted); flex: none; font-variant-numeric: tabular-nums; }
 .list li.warn { color: var(--warn); }
 .list li.error { color: var(--err); }
 .list li.ok { color: var(--on); }
+
+dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--fg);
+  box-shadow: 0 12px 40px rgb(0 0 0 / .25);
+}
+
+dialog::backdrop { background: rgb(0 0 0 / .45); backdrop-filter: blur(2px); }
+dialog h3 { font-size: 15px; margin: 0 0 8px; }
+dialog p { margin: 0 0 18px; color: var(--muted); }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 10px; }

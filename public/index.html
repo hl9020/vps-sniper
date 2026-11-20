@@ -61,9 +61,21 @@
     </div>
 
     <section class="card">
-      <h2>Activity</h2>
-      <ul id="events" class="list"></ul>
+      <div class="head">
+        <h2>Activity <span class="muted small">last 200 events are kept</span></h2>
+        <button type="button" id="clearLog">Clear log</button>
+      </div>
+      <ul id="events" class="list log"></ul>
     </section>
   </main>
+
+  <dialog id="dlg">
+    <h3 id="dlgTitle"></h3>
+    <p id="dlgText"></p>
+    <div class="dlg-actions">
+      <button type="button" id="dlgCancel">Cancel</button>
+      <button type="button" id="dlgOk" class="primary"></button>
+    </div>
+  </dialog>
 </body>
 </html>

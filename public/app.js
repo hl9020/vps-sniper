@@ -80,9 +80,28 @@ const statusCell = (j) => {
   return h('span', { class: 'st' }, 'watching')
 }
 
+const ask = (title, text, ok) => new Promise((resolve) => {
+  const d = $('dlg')
+  $('dlgTitle').textContent = title
+  $('dlgText').textContent = text
+  $('dlgOk').textContent = ok
+  const done = (v) => {
+    d.close()
+    resolve(v)
+  }
+  $('dlgOk').onclick = () => done(true)
+  $('dlgCancel').onclick = () => done(false)
+  d.oncancel = (e) => {
+    e.preventDefault()
+    done(false)
+  }
+  d.showModal()
+  $('dlgCancel').focus()
+})
+
 const reset = async (id) => {
   const j = jobs.find((x) => x.id === id)
-  if (st.jobs[id]?.status === 'ordered' && j?.action === 'order' && !confirm('This job already ordered a server. Resetting it will order another server as soon as one is available. Continue?')) return
+  if (st.jobs[id]?.status === 'ordered' && j?.action === 'order' && !(await ask('Order another server?', 'This job already ordered a server. Resetting it will order another one as soon as it is available.', 'Reset job'))) return
   try {
     await api('POST', `/api/jobs/${id}/reset`, {})
     await poll()
@@ -232,6 +251,16 @@ const init = async () => {
     }
     b.textContent = 'Send test mail'
     setTimeout(() => { b.disabled = false }, 10_000)
+  })
+
+  $('clearLog').addEventListener('click', async () => {
+    if (!(await ask('Clear log?', 'All activity entries will be deleted. This cannot be undone.', 'Clear log'))) return
+    try {
+      await api('POST', '/api/events/clear', {})
+      await poll()
+    } catch (e) {
+      msg(e.message, false)
+    }
   })
 
   window.addEventListener('beforeunload', (e) => { if (dirty) e.preventDefault() })
