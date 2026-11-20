@@ -1,0 +1,15 @@
+services:
+  vps-sniper:
+    image: ghcr.io/hl9020/vps-sniper:latest
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+      PORT: 8080
+    volumes:
+      - data:/data
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+
+volumes:
+  data:
