@@ -88,7 +88,7 @@ const order = async (s: Saved, j: Job, t: ServerType): Promise<Outcome> => {
       log('warn', `Order ${label(j)} rejected (${describe(e)}), retrying in 30 s`)
       return { kind: 'rejected', job: j }
     }
-    return fail(describe(e))
+    return fail(e instanceof HcloudError && e.status === 403 ? `${describe(e)} (the API token needs Read & Write)` : describe(e))
   }
 }
 

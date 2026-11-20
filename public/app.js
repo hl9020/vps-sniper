@@ -81,6 +81,8 @@ const statusCell = (j) => {
 }
 
 const reset = async (id) => {
+  const j = jobs.find((x) => x.id === id)
+  if (st.jobs[id]?.status === 'ordered' && j?.action === 'order' && !confirm('This job already ordered a server. Resetting it will order another server as soon as one is available. Continue?')) return
   try {
     await api('POST', `/api/jobs/${id}/reset`, {})
     await poll()

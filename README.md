@@ -141,7 +141,7 @@ npm run build && npm start
 
 Build the image locally with `docker build -t vps-sniper .`.
 
-New versions are published to `ghcr.io` by the publish workflow when a GitHub release is created.
+New versions are published to `ghcr.io` by the publish workflow when a version tag (`v1.2.3`) is pushed.
 
 ## License
 
